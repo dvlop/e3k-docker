@@ -1,0 +1,9 @@
+in:
+  type: file
+  path_prefix: /import/sample_data.csv
+out:
+  type: elasticsearch
+  index: sample_index
+  index_type: sample_type
+  nodes:
+    - host: elasticsearch

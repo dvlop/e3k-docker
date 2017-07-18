@@ -1,0 +1,29 @@
+in:
+    type: mysql
+    host: 192.168.33.11
+    port: 3306
+    user: user1
+    password: pass1
+    database: sample_db
+    query: |
+      SELECT
+        s.id,
+        s.text,
+        DATE_FORMAT(s.created, '%Y-%m-%dT%H:%i:%s+09:00') AS '@timestamp'
+      FROM
+        sample_table AS s
+
+#filters:
+#  - type: reverse_geocoding
+#    target_lon: lon
+#    target_lat: lat
+#    output_columns:
+#      - {name: pref, type: string, out: pref}
+#      - {name: city, type: string, out: city}
+
+out:
+  type: elasticsearch
+  index: sample_db_index
+  index_type: sample_db_type
+  nodes:
+    - host: elasticsearch

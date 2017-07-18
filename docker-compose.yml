@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  elasticsearch:
+    build: ./elasticsearch
+    networks:
+      - e3k
+    ports:
+      - 9200:9200
+    environment:
+      - xpack.security.enabled=false
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+      - ./elasticsearch/config:/usr/share/elasticsearch/config
+  elasticsearch-head:
+    build: ./elasticsearch-head
+    networks:
+      - e3k
+    ports:
+      - 9100:9100
+  embulk:
+    build: ./embulk
+    networks:
+      - e3k
+    volumes:
+      - ./embulk/import:/import
+  kibana:
+    build: ./kibana
+    networks:
+      - e3k
+    ports:
+      - 5601:5601
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    depends_on:
+      - elasticsearch
+
+networks:
+  e3k:
+
+volumes:
+  esdata:
